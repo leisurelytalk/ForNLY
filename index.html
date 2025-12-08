@@ -1,30 +1,217 @@
 ```html
 <!DOCTYPE html>
-<html>
+<html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8" />
-  <title>小喬的勇敢冒險 🎵</title>
-  <!-- 省略 CSS 部分，保持與之前相同 -->
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>失落的信件 - 懷舊文字冒險RPG</title>
+<style>
+  /* 基本重置 */
+  * {
+    margin: 0; padding: 0; box-sizing: border-box;
+  }
+  body {
+    background: #f5e9d3;
+    font-family: 'Courier New', Courier, monospace;
+    color: #4b3b2b;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    user-select: none;
+  }
+  #game-container {
+    background: #fff8e1;
+    border: 4px solid #a67c00;
+    border-radius: 12px;
+    width: 360px;
+    padding: 20px;
+    box-shadow: 0 0 15px #ac8f3f;
+    display: flex;
+    flex-direction: column;
+  }
+  #story-text {
+    min-height: 180px;
+    font-size: 16px;
+    line-height: 1.4;
+    margin-bottom: 20px;
+    white-space: pre-wrap;
+  }
+  #choices {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .choice-btn {
+    background: #d6b75a;
+    border: none;
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 15px;
+    cursor: pointer;
+    color: #3f2f0b;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 2px 0 #a67c00;
+  }
+  .choice-btn:hover {
+    background: #f0d87c;
+  }
+  .hidden {
+    display: none;
+  }
+  #header {
+    font-weight: bold;
+    font-size: 20px;
+    margin-bottom: 15px;
+    text-align: center;
+    letter-spacing: 2px;
+  }
+  #footer {
+    margin-top: 20px;
+    font-size: 12px;
+    color: #a67c00;
+    text-align: center;
+  }
+</style>
 </head>
 <body>
-  <!-- 省略 HTML 主體，保持與之前相同 -->
+<div id="game-container">
+  <div id="header">失落的信件</div>
+  <div id="story-text">yyyyy</div>
+  <div id="choices"></div>
+  <div id="footer">懷舊風文字冒險 RPG</div>
+</div>
 
-  <script>
-    // 省略其他程式碼，保持與之前相同
-
-    let score = 0;
-    let gameOver = false;
-    // 其他變數與函式保持不變
-
-    function gameWin() {
-      gameOver = true;
-      // 顯示勝利訊息並加上固定分數334
-      message.textContent = '恭喜！你和周瑜一起打敗了魔王，過上幸福快樂的日子！🎉 獲得分數為 334 分';
+<script>
+  // 遊戲劇本節點，y為預留文字「yyyyy」
+  const storyNodes = {
+    start: {
+      text: "你收到了一封泛黃的信件，上面寫著：\n\n『親愛的旅行者，\n請來到劇本鎮，一場屬於我們的冒險即將展開。』\n\n（yyyyy）",
+      choices: [
+        { text: "接受邀請，前往劇本鎮", next: "chatroom" },
+        { text: "稍後再說", next: "wait" }
+      ]
+    },
+    wait: {
+      text: "你猶豫了一下，但信件的字跡讓你心頭一暖。\n\n（yyyyy）",
+      choices: [
+        { text: "現在出發", next: "chatroom" },
+        { text: "再想想", next: "waitAgain" }
+      ]
+    },
+    waitAgain: {
+      text: "時間一分一秒過去，冒險還在等著你。\n\n（yyyyy）",
+      choices: [
+        { text: "終於決定出發", next: "chatroom" }
+      ]
+    },
+    chatroom: {
+      text: "你來到了劇本鎮的聊天室廣場，四周掛滿像素風的對話泡泡。\n一位名叫「信使」的角色正等待你的到來。\n\n（yyyyy）",
+      choices: [
+        { text: "你好，信使，有什麼我能幫忙的嗎？", next: "dialogue1" },
+        { text: "這裡真像老時代的聊天室呢。", next: "dialogue2" },
+        { text: "你在等誰呢？", next: "dialogue3" }
+      ]
+    },
+    dialogue1: {
+      text: "信使微笑著說：『我正等待一位夥伴，一起解開這劇本碎片。』\n\n（yyyyy）",
+      choices: [
+        { text: "一起尋找碎片吧", next: "puzzle" }
+      ]
+    },
+    dialogue2: {
+      text: "信使點頭：『是啊，這裡充滿了回憶和故事。』\n\n（yyyyy）",
+      choices: [
+        { text: "一起尋找碎片吧", next: "puzzle" }
+      ]
+    },
+    dialogue3: {
+      text: "信使說：『我在等遠方的旅行者，或許就是你。』\n\n（yyyyy）",
+      choices: [
+        { text: "一起尋找碎片吧", next: "puzzle" }
+      ]
+    },
+    puzzle: {
+      text: "在廣場上，散落著三片劇本碎片，點擊它們來閱讀。\n\n（yyyyy）",
+      choices: [
+        { text: "閱讀碎片1", next: "fragment1" },
+        { text: "閱讀碎片2", next: "fragment2" },
+        { text: "閱讀碎片3", next: "fragment3" }
+      ]
+    },
+    fragment1: {
+      text: "碎片1：『記得那次深夜聊天，笑聲在螢幕中回響。』\n\n（yyyyy）",
+      choices: [
+        { text: "繼續閱讀其他碎片", next: "puzzle" },
+        { text: "完成尋找", next: "bridge" }
+      ]
+    },
+    fragment2: {
+      text: "碎片2：『秘密暗號藏在我們的文字裡，只有你懂。』\n\n（yyyyy）",
+      choices: [
+        { text: "繼續閱讀其他碎片", next: "puzzle" },
+        { text: "完成尋找", next: "bridge" }
+      ]
+    },
+    fragment3: {
+      text: "碎片3：『那年疫情裡，我們的故事悄悄展開。』\n\n（yyyyy）",
+      choices: [
+        { text: "繼續閱讀其他碎片", next: "puzzle" },
+        { text: "完成尋找", next: "bridge" }
+      ]
+    },
+    bridge: {
+      text: "你和信使來到一座被霧氣籠罩的橋邊。\n信使說：『也許有一天能走過去，但現在只能停在這裡。』\n\n（yyyyy）",
+      choices: [
+        { text: "我願意等待", next: "waitChoice" },
+        { text: "我送你祝福", next: "blessChoice" }
+      ]
+    },
+    waitChoice: {
+      text: "你選擇停留等待，心中充滿溫柔的堅持。\n\n（yyyyy）",
+      choices: [
+        { text: "繼續", next: "ending" }
+      ]
+    },
+    blessChoice: {
+      text: "你選擇送上祝福，雖然分開，但心依然相繫。\n\n（yyyyy）",
+      choices: [
+        { text: "繼續", next: "ending" }
+      ]
+    },
+    ending: {
+      text: "煙火在橋邊綻放，溫暖的光芒映照著信使的笑容。\n\n（yyyyy）\n\n祝你生日快樂，旅行者！",
+      choices: [
+        { text: "重新開始", next: "start" }
+      ]
     }
+  };
 
-    // 省略其餘程式碼，保持與之前相同
+  let currentNode = "start";
 
-  </script>
+  const storyText = document.getElementById("story-text");
+  const choicesDiv = document.getElementById("choices");
+
+  function showNode(nodeKey) {
+    const node = storyNodes[nodeKey];
+    storyText.textContent = node.text;
+    choicesDiv.innerHTML = "";
+
+    node.choices.forEach(choice => {
+      const btn = document.createElement("button");
+      btn.classList.add("choice-btn");
+      btn.textContent = choice.text;
+      btn.onclick = () => {
+        currentNode = choice.next;
+        showNode(currentNode);
+      };
+      choicesDiv.appendChild(btn);
+    });
+  }
+
+  // 遊戲啟動
+  showNode(currentNode);
+</script>
 </body>
 </html>
 ```
